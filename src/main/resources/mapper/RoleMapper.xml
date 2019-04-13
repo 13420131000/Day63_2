@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.mapper.RoleMapper">
+    <insert id="addObject" parameterType="com.qf.pojo.Role">
+        INSERT INTO role values(DEFAULT ,#{rolename},#{flag})
+    </insert>
+
+    <update id="deleteObject" >
+        update role set flag = 0 where roleid =#{roleid}
+    </update>
+
+    <update id="updateObject" parameterType="com.qf.pojo.Role">
+        update role set rolename = #{rolename} where roleid = #{roleid}
+    </update>
+
+    <select id="getList" parameterType="Map" resultType="com.qf.pojo.Role">
+        select * from role where flag = 1 limit #{index},#{pageSize}
+    </select>
+
+    <select id="findAll" resultType="com.qf.pojo.Role">
+        select * from role where flag = 1
+    </select>
+
+    <select id="getRoleBy" resultType="com.qf.pojo.Role" parameterType="com.qf.vo.SearchVo">
+        select * from role where flag = 1
+        <if test="search!=null and search !=''">
+            and rolename = #{search}
+        </if>
+    </select>
+
+
+    <select id="getTotalCount" resultType="int">
+        select count(1) from role where flag = 1
+    </select>
+
+    <select id="getObjectById" resultType="com.qf.pojo.Role">
+        select * from role where flag = 1 and roleid = #{roleid}
+    </select>
+
+    <update id="batchDel" parameterType="com.qf.vo.UserVo">
+        update role set flag = 0
+        <where>
+            <foreach collection="ids" item="id" separator="or">
+                roleid=#{id}
+            </foreach>
+        </where>
+    </update>
+
+    <select id="searchByWord" resultType="com.qf.pojo.Role">
+        select * from role where flag = 1 and rolename like #{rolename}
+    </select>
+    
+    <select id="getRoleByUserId" parameterType="int" resultType="com.qf.dto.RoleInfoDto">
+       select r.*,u.userid from role r left join user_role ur on r.roleid = ur.roleid and ur.userid=#{userid}
+       left join userinfo u on ur.userid = u.userid  and u.flag =1
+    </select>
+
+
+    <delete id="setRoleFalse" parameterType="com.qf.vo.UserRoleVo">
+        delete from user_role
+        <where>
+            userid = #{userid} and roleid in
+            <foreach collection="roleUnSelected" item="roleid" open="(" close=")" separator=",">
+                #{roleid}
+            </foreach>
+        </where>
+    </delete>
+
+    <insert id="setRoleTrue" parameterType="com.qf.vo.UserRoleVo">
+        insert into  user_role(id,roleid,userid) value
+        <foreach collection="roleSelected" item="roleid" open="(" close=")" separator="),(">
+            default ,#{roleid},#{userid}
+        </foreach>
+    </insert>
+</mapper>

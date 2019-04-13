@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.mapper.UserInfoMapper">
+    <insert id="addObject" parameterType="com.qf.pojo.UserInfo">
+        INSERT INTO userinfo values(DEFAULT ,#{username},#{password},#{name},#{email},#{flag})
+    </insert>
+
+    <update id="deleteObject" >
+        update userinfo set flag = 0 where userid =#{userid}
+    </update>
+
+    <update id="updateObject" parameterType="com.qf.pojo.UserInfo">
+        update userinfo set username = #{username},name = #{name},email = #{email} where userid = #{userid}
+    </update>
+
+    <select id="getList" parameterType="Map" resultType="com.qf.pojo.UserInfo">
+        select * from userinfo where flag = 1 limit #{index},#{pageSize}
+    </select>
+
+    <select id="findAll" resultType="com.qf.pojo.UserInfo">
+        select * from userinfo where flag = 1
+    </select>
+
+    <select id="getTotalCount" resultType="int">
+        select count(1) from userinfo where flag = 1
+    </select>
+
+    <select id="getObjectById" resultType="com.qf.pojo.UserInfo">
+        select * from userinfo where flag = 1 and userid = #{userid}
+    </select>
+
+    <update id="batchDel" parameterType="com.qf.vo.UserVo">
+        update userinfo set flag = 0
+        <where>
+            <foreach collection="ids" item="id" separator="or">
+                userid=#{id}
+            </foreach>
+        </where>
+    </update>
+
+    <select id="searchByWord" parameterType="com.qf.pojo.UserInfo" resultType="com.qf.pojo.UserInfo">
+        SELECT * from userinfo where flag = 1 and username like #{username} or name like #{name} or email like #{email}
+    </select>
+
+    <select id="loginCheck" parameterType="com.qf.pojo.UserInfo" resultType="com.qf.pojo.UserInfo">
+        SELECT * from userinfo where flag = 1 and username = #{username} and password = #{password}
+    </select>
+
+    <select id="getCount" parameterType="com.qf.vo.UserInfoVo" resultType="int">
+        SELECT count(*) from userinfo where flag = 1
+        <if test="username!=null and username !=''">
+            and username = #{username}
+        </if>
+        <if test="name!=null and name !=''">
+            and name = #{name}
+        </if>
+        <if test="email!=null and email !=''">
+            and email = #{email}
+        </if>
+    </select>
+
+    <select id="getUserInfosPageBy" parameterType="com.qf.vo.UserInfoVo" resultType="com.qf.pojo.UserInfo">
+        SELECT * from userinfo where flag = 1
+        <if test="username!=null and username !=''">
+            and username = #{username}
+        </if>
+        <if test="name!=null and name !=''">
+            and name = #{name}
+        </if>
+        <if test="email!=null and email !=''">
+            and email = #{email}
+        </if>
+        limit #{page.start},#{page.pageSize}
+    </select>
+
+
+</mapper>

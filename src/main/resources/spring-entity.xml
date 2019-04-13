@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <bean name="userInfo" class="com.qf.pojo.UserInfo">
+        <property name="username" value="liuzhenxing"></property>
+        <property name="password" value="123456"></property>
+    </bean>
+
+    <bean name="lxk" class="com.qf.pojo.UserInfo">
+        <property name="username" value="lvXiaoKai"></property>
+        <property name="password" value="123456"></property>
+        <property name="name" value="lxk"></property>
+        <property name="email" value="lvxiaokai@qq.com"></property>
+        <property name="flag" value="1"></property>
+    </bean>
+
+    <bean name="hs" class="com.qf.pojo.UserInfo">
+        <property name="username" value="huangShuo"></property>
+        <property name="password" value="123456"></property>
+        <property name="name" value="hs"></property>
+        <property name="email" value="huangshuo@163.com"></property>
+        <property name="flag" value="1"></property>
+    </bean>
+
+    <bean name="xm" class="com.qf.pojo.UserInfo">
+        <property name="userid" value="1"></property>
+        <property name="username" value="xiaoming"></property>
+        <property name="password" value="123456"></property>
+        <property name="name" value="xm"></property>
+        <property name="email" value="xiaoming@163.com"></property>
+        <property name="flag" value="1"></property>
+    </bean>
+</beans>
